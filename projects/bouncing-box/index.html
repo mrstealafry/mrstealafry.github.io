@@ -9,14 +9,13 @@
 		.box {
 			width: 70px;
 			height: 70px;
-			background-color: teal;
+			background-color: rgb(102, 10, 215);
 			font-size: 300%;
 			text-align: center;
 			user-select: none;
 			display: block;
 			position: absolute;
 			top: 100px;
-			/* Change me! */
 			left: 0px;
 		}
 
@@ -24,8 +23,6 @@
 			height: 100vh;
 		}
 	</style>
-	<!-- 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
-
 </head>
 
 <body class="board">
@@ -66,8 +63,11 @@
 			//////////////////////////////////////////////////////////////////
 
 			// TODO 2 - Variable declarations 
-
-
+			var speed = 5; // Speed of the box movement
+			var positionX = 0; // Current X position of the box
+			var direction = 1; // Direction of movement: 1 = right, -1 = left
+			var score = 0; // Player score
+			
 
 			/* 
 			This Function will be called 20 times/second. Each time it is called,
@@ -75,8 +75,16 @@
 			turn it around! 
 			*/
 			function update() {
+				// Move the box based on speed and direction
+				positionX += speed * direction;
 
+				// If the box goes beyond the right edge of the screen, reverse direction
+				if (positionX + box.width() >= boardWidth || positionX <= 0) {
+					direction *= -1; // Reverse the direction
+				}
 
+				// Update the box position
+				moveBoxTo(positionX);
 			};
 
 			/* 
@@ -85,13 +93,17 @@
 			the left side of the screen.
 			*/
 			function handleBoxClick() {
+				// Increase score and speed
+				score += 1;
+				speed += 1; // Increase speed by 1 each time
 
+				// Move the box to the left side of the screen (position X = 0)
+				positionX = 0;
+				moveBoxTo(positionX);
 
+				// Update the box text to show the current score
+				changeBoxText(score);
 			};
-
-
-
-
 
 		})();
 	</script>
